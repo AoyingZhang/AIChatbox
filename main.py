@@ -1,5 +1,5 @@
 
-import os
+
 import streamlit as st
 import pandas as pd
 from io import StringIO
@@ -8,10 +8,17 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 import openai
 
-openai.api_key = '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'
-#set up using Langchain
-chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # take environment variables from .env.
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+openai.api_key = openai_api_key
+
+# set up using Langchain
+chat = ChatOpenAI(openai_api_key=openai_api_key, temperature=0.0)
 
 
 uploaded_file = st.file_uploader("Choose a PDF file")
