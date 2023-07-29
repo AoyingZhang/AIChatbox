@@ -9,7 +9,6 @@ from langchain.prompts import ChatPromptTemplate
 import openai
 
 openai.api_key = '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'
-OPENAI_API_KEY = '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'
 #set up using Langchain
 chat = ChatOpenAI(temperature=0.0)
 
