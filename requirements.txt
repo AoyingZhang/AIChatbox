@@ -3,4 +3,4 @@ numpy
 pandas
 PyPDF2
 langchain
-
+openai
