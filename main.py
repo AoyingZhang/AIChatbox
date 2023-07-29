@@ -8,10 +8,10 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 import openai
 
-openai.api_key = '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'
+openai.api_key = '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'
 #set up using Langchain
-chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
-
+chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
+s
 uploaded_file = st.file_uploader("Choose a PDF file")
 
 if uploaded_file is not None:
