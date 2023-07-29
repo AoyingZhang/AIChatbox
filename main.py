@@ -14,7 +14,7 @@ import os
 load_dotenv()  # take environment variables from .env.
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
-
+print(openai_api_key) 
 openai.api_key = openai_api_key
 
 # set up using Langchain
