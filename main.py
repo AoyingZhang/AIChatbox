@@ -8,9 +8,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 import openai
 
-openai.api_key = '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'
+openai.api_key = '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'
 #set up using Langchain
-chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
+chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
 
 
 
