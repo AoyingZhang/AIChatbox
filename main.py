@@ -11,7 +11,7 @@ import openai
 openai.api_key = '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'
 #set up using Langchain
 chat = ChatOpenAI(openai_api_key='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', temperature=0.0)
-s
+
 uploaded_file = st.file_uploader("Choose a PDF file")
 
 if uploaded_file is not None:
