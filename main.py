@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import pandas as pd
 from io import StringIO
@@ -10,7 +8,6 @@ import openai
 
 from dotenv import load_dotenv
 import os
-
 load_dotenv()  # take environment variables from .env.
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -30,20 +27,25 @@ if uploaded_file is not None:
     # printing number of pages in pdf file
     print(len(reader.pages))
     
+    content = ''
     for i in range(len(reader.pages)):
         page = reader.pages[i]
         text = page.extract_text()
-        "Text inputed "+str(i+1)+ ":"
-        text
-        template_string = """Summarize the text \
-        that is delimited by triple backticks \
-        text: ```{text}```
-        """
-        prompt_template = ChatPromptTemplate.from_template(template_string)
-        messages = prompt_template.format_messages(text=text)
-        response = chat(messages)
-        "\nSummary: \n"
-        response.content
+        content = content+text
+    content
+
+    user_input = st.text_input('How can I help you?', 'Please summarize the text content')
+    template_string = """Please handle the text \
+    that is delimited by triple backticks based on\
+    the following requirements that is delimited by triple pipes\
+    text: ```{text}```\
+    requirements:|||{requirements}|||\
+    """
+    prompt_template = ChatPromptTemplate.from_template(template_string)
+    messages = prompt_template.format_messages(text=content, requirements=user_input)
+    response = chat(messages)
+    "\nHere's the response: \n"
+    response.content
 
 
 
