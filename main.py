@@ -10,6 +10,10 @@ from dotenv import load_dotenv
 import os
 load_dotenv()  # take environment variables from .env.
 
+st.title('Welcome to the AI Chatbox web! ')
+st.subheader('Please upload the _PDF_ file you want to get help about')
+st.subheader('Then a chatbox will appear and what you need help about :sunglasses:')
+
 openai_api_key = os.getenv("OPENAI_API_KEY")
 print(openai_api_key) 
 openai.api_key = openai_api_key
@@ -32,9 +36,10 @@ if uploaded_file is not None:
         page = reader.pages[i]
         text = page.extract_text()
         content = content+text
-    content
+    #content
 
     user_input = st.text_input('How can I help you?', 'Please summarize the text content')
+
     template_string = """Please handle the text \
     that is delimited by triple backticks based on\
     the following requirements that is delimited by triple pipes\
