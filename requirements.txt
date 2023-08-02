@@ -7,3 +7,4 @@ openai
 python-dotenv
 toml
 google-cloud-storage>=1.0.0
+google-cloud-firestore
