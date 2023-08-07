@@ -1,5 +1,7 @@
 # AIChatbox
-A chatbox AI using OPENAI, LLM and LangChain enabling uploading PDF file and get response based on the file content
+A chatbox AI using OPENAI, LLM, LangChain and Firebase 
+Users can upload PDF resumes to the database, ask any question and get AI responses based on the info in the database
+
 deployed here: https://aichatbox.streamlit.app/
 
-Newest demo video: https://youtu.be/IRG7YlKE8wQ
+Newest demo video: https://www.youtube.com/watch?v=pn3TO0a488U
