@@ -9,3 +9,5 @@ toml
 google-cloud-storage>=1.0.0
 google-cloud-firestore
 google-auth
+firestore
+firebase-admin
