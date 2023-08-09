@@ -58,9 +58,9 @@ db = firestore.Client(credentials=creds, project="ai-chatbox-database")
 #st.write("The contents are: ", doc.to_dict())
 
 #UI header
-st.title('Welcome to the AI Chatbox web! ')
-st.subheader('Please upload the _PDF_ file you want to get help about')
-st.subheader('Then a chatbox will appear and what you need help about :sunglasses:')
+st.title('Welcome to the AI resume helper web! ')
+st.subheader('Please upload new resume _PDF_ to the database')
+st.subheader('Or specify the name and ask any question about an existing resume')
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = openai_api_key
