@@ -90,7 +90,7 @@ if uploaded_file is not None:
         content = content+text
     
     #get person name and doc name
-    name= getAIResponse(prompt_template, content, 'What is the name of the person? Please just answer 2 words.')
+    name= getAIResponse(prompt_template, content, 'What is the name of the person? Please just answer 2 words. Make sure the first name is the first name and second word is the last name. ')
     docName = name+' Resume'
     addFile(db, docName, name, text)
 
