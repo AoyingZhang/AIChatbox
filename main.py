@@ -3,23 +3,13 @@ import pandas as pd
 from io import StringIO
 from PyPDF2 import PdfReader
 from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-import openai
 from google.oauth2 import service_account
 from google.cloud import firestore
 from dotenv import load_dotenv
-import os
+
 load_dotenv()  # take environment variables from .env.
+import ai_response as ai
 
-
-#generate prompt template ->set up for AI
-template_string = """Please handle the text \
-that is delimited by triple backticks based on\
-the following requirements that is delimited by triple pipes\
-text: ```{text}```\
-requirements:|||{requirements}|||\
-"""
-prompt_template = ChatPromptTemplate.from_template(template_string)
 
 #add file to database function
 def addFile(db, docName, name, text):
@@ -35,16 +25,8 @@ def getFile(db, docName):
     if doc.exists:
         return doc.to_dict()['content']
 
-    else: 
-        print("No such document!")
+    
 
-#get AI response function
-def getAIResponse(prompt_template, content, user_input):
-    if(user_input!=''):
-        messages = prompt_template.format_messages(text=content, requirements=user_input)
-        response = chat(messages)
-        return response.content
-    return ''
 
 # Authenticate to Firestore with the JSON account key.
 import json
@@ -62,18 +44,11 @@ st.title('Welcome to the AI resume helper web! ')
 st.subheader('Please upload new resume _PDF_ to the database')
 st.subheader('Or specify the name and ask any question about an existing resume')
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = openai_api_key
 
 # set up using Langchain
-chat = ChatOpenAI(openai_api_key=openai_api_key, temperature=0.0)
+
 uploaded_file = st.file_uploader("Choose a PDF file")
 content=''
-
-
-
-
-
 
 
 
@@ -90,16 +65,25 @@ if uploaded_file is not None:
         content = content+text
     
     #get person name and doc name
-    name= getAIResponse(prompt_template, content, 'What is the name of the person? Please just answer 2 words. Make sure the first name is the first name and second word is the last name. ')
+    name= ai.from_text_answer_question(content, 'What is the name of the person? Please just answer 2 words. Make sure the first name is the first name and second word is the last name. ')
     docName = name+' Resume'
     addFile(db, docName, name, text)
 
 #get answer
-user_input = st.text_input('How can I help you?', '')
-getResumeName= getAIResponse(prompt_template, user_input, 'What is the name of the person we are getting resume about? Please just answer 2 words.')+" Resume"
+user_input = st.chat_input('How can I help you?')
+if(user_input and user_input!='None'):
+    with st.chat_message("user"):
+        print(user_input)
+        st.markdown(user_input)
+getResumeName= ai.from_text_answer_question(user_input, 'What is the name of the person we are getting resume about? Please just answer 2 words.')+" Resume"
 getResumeContent = getFile(db, getResumeName)
 print(getResumeName)
-st.write(getAIResponse(prompt_template, getResumeContent, user_input))
+res = ai.from_text_answer_question(getResumeContent, user_input)
+
+if(res and res!='requirements: None'):
+    with st.chat_message("assistant"):
+        print(res)
+        st.markdown(res)
 
 
 
