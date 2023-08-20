@@ -14,7 +14,7 @@ that is delimited by triple backticks based on\
 the following requirements that is delimited by triple pipes\
 text: ```{text}```\
 requirements:|||{requirements}|||\
-"""
+""" 
 from_text_answer_question_prompt_template = ChatPromptTemplate.from_template(from_text_answer_question_prompt)
 
 #get AI response function

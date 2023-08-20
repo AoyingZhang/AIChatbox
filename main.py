@@ -3,36 +3,12 @@ import pandas as pd
 from io import StringIO
 from PyPDF2 import PdfReader
 from langchain.chat_models import ChatOpenAI
-from google.oauth2 import service_account
-from google.cloud import firestore
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
+import database as db
 load_dotenv()  # take environment variables from .env.
 import ai_response as ai
 
-
-#add file to database function
-def addFile(db, docName, name, text):
-    doc_ref = db.collection('users').document(docName)
-    doc_ref.set({
-        'name': name,
-        'content': text
-    })
-
-def getFile(db, docName):
-    doc_ref = db.collection("users").document(docName)
-    doc = doc_ref.get()
-    if doc.exists:
-        return doc.to_dict()['content']
-
-    
-
-
-# Authenticate to Firestore with the JSON account key.
-import json
-key_dict = json.loads(st.secrets["textkey"])
-creds = service_account.Credentials.from_service_account_info(key_dict)
-db = firestore.Client(credentials=creds, project="ai-chatbox-database")
 
 
 #Database info
@@ -65,22 +41,22 @@ if uploaded_file is not None:
         content = content+text
     
     #get person name and doc name
-    name= ai.from_text_answer_question(content, 'What is the name of the person? Please just answer 2 words. Make sure the first name is the first name and second word is the last name. ')
+    name= ai.from_text_answer_question(content, 'What is the name of the person? Please just answer 2 words. Make sure the first word is the first name and second word is the last name. Please answer 2 words. ')
     docName = name+' Resume'
-    addFile(db, docName, name, text)
+    db.addFile(db.database, docName, name, text)
 
 #get answer
 user_input = st.chat_input('How can I help you?')
-if(user_input and user_input!='None'):
+if user_input is not None:
     with st.chat_message("user"):
         print(user_input)
         st.markdown(user_input)
-getResumeName= ai.from_text_answer_question(user_input, 'What is the name of the person we are getting resume about? Please just answer 2 words.')+" Resume"
-getResumeContent = getFile(db, getResumeName)
+getResumeName= ai.from_text_answer_question(user_input, 'What is the name of the person? Please just answer 2 words. Make sure the first word is the first name and second word is the last name.')+" Resume"
+getResumeContent = db.getFile(db.database, getResumeName)
 print(getResumeName)
 res = ai.from_text_answer_question(getResumeContent, user_input)
 
-if(res and res!='requirements: None'):
+if user_input is not None and res is not None:
     with st.chat_message("assistant"):
         print(res)
         st.markdown(res)
