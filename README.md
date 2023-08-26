@@ -1,4 +1,4 @@
-# AIChatbox
+# ResuMate AI helper
 A chatbox AI using OPENAI, LLM, LangChain and Firebase 
 Users can upload PDF resumes to the database, ask any question and get AI responses based on the info in the database
 
